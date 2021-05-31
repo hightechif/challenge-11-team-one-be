@@ -24,13 +24,36 @@ Make sure you have [Node.js](https://nodejs.org/) and [NPM](https://www.npmjs.co
 $ npm install
 ```
 
-**3. Run Express**
+**3. Run sequelize**
 
-Run Express with:
+Generate database
+
+```
+$ sequelize db:create
+```
+
+Run migration and seeders
+
+```
+$ sequelize db:migrate
+$ sequelize db:seed:all
+```
+
+**4. Run the server**
+
+Run server with:
 
 ```
 $ npm run start
 ```
+
+or
+
+```
+$ npm run dev
+```
+
+&nbsp;
 
 Server listening in port 3000 (open http://localhost:3000)
 
