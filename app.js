@@ -20,7 +20,7 @@ app.use(cookieParser());
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerJSON)); // Swagger
 
 // Routing (Endpoints and Handlers)
-// app.use('/', indexRouter);
+app.use('/', indexRouter);
 
 app.post('/api/v1/auth/register', authController.register);
 app.post('/api/v1/auth/login', authController.login);
@@ -39,6 +39,4 @@ app.use((error, req, res, next)=>{
         }
     })
 })
-
-
 module.exports = app;
