@@ -5,10 +5,9 @@ var logger = require('morgan');
 const swaggerUI = require('swagger-ui-express');
 const swaggerJSON = require('./swagger.json');
 
+const authController = require('./controllers/auth.controller')
 // Routier
 var indexRouter = require('./routes/index');
-// var usersRouter = require('./routes/users.routes.js');
-
 // Activate Express Module
 var app = express();
 
@@ -21,11 +20,25 @@ app.use(cookieParser());
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerJSON)); // Swagger
 
 // Routing (Endpoints and Handlers)
-app.use('/', indexRouter);
-// app.use('/users', usersRouter);
+// app.use('/', indexRouter);
 
+app.post('/api/v1/auth/register', authController.register);
+app.post('/api/v1/auth/login', authController.login);
 // Error Handlers
-app.use(errorMiddleware.errorHandler); // Internal Server Error Handler
-app.use(errorMiddleware.error404Handler); // Error 404 Handler
+app.use((req,res, next)=>{
+    const error = new ("Not Found!");
+    error.status=404;
+    next(error);
+})
+
+app.use((error, req, res, next)=>{
+    res.status(error.status|| 500);
+    res.json({
+        error:{
+            message:error.message,
+        }
+    })
+})
+
 
 module.exports = app;
