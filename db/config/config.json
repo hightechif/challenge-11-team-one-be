@@ -2,7 +2,7 @@
   "development": {
     "username": "postgres",
     "password": "root",
-    "database": "cv1_builder",
+    "database": "cv_builder",
     "host": "localhost",
     "dialect": "postgres"
   },
