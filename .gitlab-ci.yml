@@ -1,5 +1,5 @@
 # Node docker image
-image: node:8.10.0
+image: node:14.16.1
 
 cache:
   paths:
@@ -7,6 +7,7 @@ cache:
 
 stages:
   - install
+  # - database
   - deploy
 
 #Job 1 Install
@@ -15,7 +16,13 @@ Install:
   script:
     - npm install
 
-#Job 2 DEPLOY:
+#Job 2 Generate Database
+# Database:
+#   stage: database
+#   script:
+#     - npm run db:migrate
+
+#Job 3 DEPLOY:
 Production:
   image: ruby:latest
   only:
