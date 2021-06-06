@@ -1,0 +1,30 @@
+# Node docker image
+image: node:14.16.1
+
+cache:
+  paths:
+    - node_module/
+
+stages:
+  - install
+  - deploy
+
+#Job 1 Install
+Install:
+  only:
+    - master
+  stage: install
+  script:
+    - npm install
+
+#Job 2 Deploy:
+Production:
+  image: ruby:latest
+  only:
+    - master
+  stage: deploy
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
