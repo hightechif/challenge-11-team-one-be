@@ -1,4 +1,4 @@
-const base = require('../../controllers/baseController.js')
+const base = require('../../controllers/index.controller')
 const mockRequest = (body = {}) => ({ body })
 const mockResponse = () => {
     const res = {}
@@ -6,15 +6,15 @@ const mockResponse = () => {
     res.status = jest.fn().mockReturnValue(res)
     return res
 }
-describe('base.index function', () => {
-    test('res.json called with { status: true, message: "Hello World")', done => {
+describe('GET /', () => {
+    test('res.json called with { status: OK, message: "Welcome to cv-programmer API")', done => {
         const req = mockRequest()
         const res = mockResponse()
-        base.index(req, res)
+        base.home(req, res)
         expect(res.status).toBeCalledWith(200)
         expect(res.json).toBeCalledWith({
-            status: true,
-            message: "Hello World!"
+            status: "OK",
+            message: "Welcome to cv-programmer API"
         })
         done()
     })

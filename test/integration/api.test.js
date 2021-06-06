@@ -1,15 +1,15 @@
 const request = require('supertest')
-const app = 
+const app = require('../../app')
 
 
-describe('POST /register', () => {
-    test("Return status: 200 and a hello world message", done => {
+describe('GET /', () => {
+    test("Return status: 200 and welcome message", done => {
         request(app).get('/').then(res => {
             expect(res.statusCode).toBe(200)
             expect(res.body).toHaveProperty('status') 
             expect(res.body).toHaveProperty('message') 
-            expect(res.body.status).toBe(true) 
-            expect(res.body.message).toEqual("")
+            expect(res.body.status).toBe("OK") 
+            expect(res.body.message).toEqual("Welcome to cv-programmer API")
             done()
         })
     })
