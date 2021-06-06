@@ -1,35 +1,31 @@
-var express = require('express');
-var app = express();
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var indexRouter = require('./routes/index');
-const swaggerUI = require('swagger-ui-express');
+// Import Module
+const express = require('express');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
 const cors = require("cors");
+const indexRouter = require('./routes/index.routes');
+const errorMiddleware = require('./utils/error.middleware')
+
+// API Docs with Swagger
+const swaggerUI = require('swagger-ui-express');
 const swaggerJSON = require('./swagger.json');
 
+// Activate Express Module
+const app = express();
+
+// Middlewares
 app.use(cors()) 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerJSON)); // Swagger
 
-app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerJSON));
+// Routing (Endpoints and Handlers)
 app.use('/', indexRouter);
 
-app.use((req,res, next)=>{
-    const error = new ("Not Found!");
-    error.status=404;
-    next(error);
-})
-
-app.use((error, req, res, next)=>{
-    res.status(error.status|| 500);
-    res.json({
-        error:{
-            message:error.message,
-        }
-    })
-})
+// Error Handlers
+app.use(errorMiddleware.errorHandler); // Internal Server Error Handler
+app.use(errorMiddleware.error404Handler); // Error 404 Handler
 
 module.exports = app;
