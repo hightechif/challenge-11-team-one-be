@@ -1,5 +1,6 @@
-let bcrypt = require('bcrypt');
-const {Users} = require('../db/models');
+const { Users } = require('../db/models');
+
+// Register Controller
 const register = (req, res, next) => {
   if (!req.body.email || !req.body.password) {
     res.status(400).json({
@@ -21,7 +22,8 @@ const register = (req, res, next) => {
     .catch((error) => next(error.message))
 };
 
-const login =  (req, res, next) => {
+// Login Controller
+const login = (req, res, next) => {
   if (!req.body.email || !req.body.password) {
     res.status(400).json({
       result: "FAILED",
@@ -29,11 +31,8 @@ const login =  (req, res, next) => {
     });
     return;
   }
-  const user = {
-    email: req.body.email,
-    password: req.body.password, // reminder : it is bad practice to store password in plain text
-  };
-  Users.authenticate(user)
+  
+  Users.authenticate(req.body)
     .then(data => {
       dataUser = {
         id: data.id,
@@ -47,7 +46,15 @@ const login =  (req, res, next) => {
     })
 }
 
+// Whoami Controller
+const whoami = (req, res) => {
+  /* req.user adalah instance dari User Model, hasil autentikasi dari passport. */
+  console.log(req);
+  res.status(200).json(req.user);
+}
+
 module.exports = {
   register,
-  login
+  login,
+  whoami
 };
