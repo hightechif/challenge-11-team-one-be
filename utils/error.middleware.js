@@ -4,14 +4,14 @@ const errorHandler = (err, req, res, next) => {
   if (err) {
     console.log(err);
   } else {
-    res.status(500);
+    res.status(500).json({message: "SERVER ERROR"});
   }
   next();
 }
   
 // 404 Handler
 const error404Handler = (req, res, next) => {
-  res.status(404).render('./404.ejs')
+  res.status(404).json({message: "NOT FOUND"})
   next();
 }
   
