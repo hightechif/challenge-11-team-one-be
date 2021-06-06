@@ -1,10 +1,8 @@
+'use strict';
+const { Model } = require('sequelize');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
-'use strict';
-const {
-  Model
-} = require('sequelize');
+require('dotenv').config()
 
 module.exports = (sequelize, DataTypes) => {
   class Users extends Model {
@@ -35,11 +33,11 @@ module.exports = (sequelize, DataTypes) => {
       try {
         const user = await this.findOne({ where: { email }})
         if (!user) {
-          return Promise.reject("User not found!");
+          return Promise.reject("USER NOT FOUND!");
         }
         const isPasswordValid = user.checkPassword(password)
         if (!isPasswordValid) {
-          return Promise.reject("Wrong password")
+          return Promise.reject("WRONG PASSWORD")
         }
         return Promise.resolve(user)
       } catch(err) {
@@ -53,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
         email: this.email
       }
 
-      const secretKey = 'strong-secret';
+      const secretKey = process.env.JWT_SECRET_KEY;
 
       const token = jwt.sign(payLoad, secretKey, { expiresIn: '24h' });
       return token;

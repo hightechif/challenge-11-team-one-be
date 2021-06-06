@@ -7,22 +7,17 @@ cache:
 
 stages:
   - install
-  # - database
   - deploy
 
 #Job 1 Install
 Install:
+  only:
+    - master
   stage: install
   script:
     - npm install
 
-#Job 2 Generate Database
-# Database:
-#   stage: database
-#   script:
-#     - npm run db:migrate
-
-#Job 3 DEPLOY:
+#Job 2 Deploy:
 Production:
   image: ruby:latest
   only:

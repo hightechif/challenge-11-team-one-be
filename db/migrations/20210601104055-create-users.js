@@ -11,13 +11,13 @@ module.exports = {
           defaultValue: Sequelize.literal('uuid_generate_v4()'),
         },
         email: {
-          type: Sequelize.STRING,
           allowNull: false,
+          type: Sequelize.STRING,
           unique: true
         },
         password: {
-          type: Sequelize.STRING,
           allowNull: false,
+          type: Sequelize.STRING,
         },
         createdAt: {
           allowNull: false,
